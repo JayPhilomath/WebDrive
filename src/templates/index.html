@@ -1,1 +1,96 @@
 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebDrive</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <div>
+          <h1>WebDrive</h1>
+          <p class="subtitle">
+            Sharing folder: <strong id="share-root-name">{{ app_config.shareRootName }}</strong>
+          </p>
+          <p class="tip">
+            Open this URL on any device on the same Wi-Fi/LAN to upload and download files.
+            Paste images or text with Ctrl+V to save them as files.
+          </p>
+        </div>
+        <div class="header-actions">
+          <button id="theme-toggle" class="button" type="button">Toggle Theme</button>
+          {% if app_config.authEnabled %}
+          <form method="post" action="/logout">
+            <input type="hidden" name="csrf_token" value="{{ app_config.csrfToken }}" />
+            <button id="logout-btn" class="button" type="submit">Log Out</button>
+          </form>
+          {% endif %}
+        </div>
+      </header>
+
+      <section class="columns">
+        <div class="col-files">
+          <div class="toolbar">
+            <nav id="breadcrumbs" class="breadcrumbs"></nav>
+            <div class="toolbar-buttons">
+              <button id="refresh-btn" class="button" type="button">Refresh</button>
+              <button id="paste-btn" class="button button-primary" type="button">Paste from Clipboard</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="file-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th class="col-size">Size</th>
+                  <th class="col-modified">Modified</th>
+                </tr>
+              </thead>
+              <tbody id="file-list"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-upload">
+          <div class="panel">
+            <p class="panel-title">Upload files</p>
+            <p class="panel-copy">Drag and drop files here, or choose files.</p>
+
+            <div class="dropzone" id="dropzone">
+              <input id="file-input" type="file" multiple />
+            </div>
+
+            <div class="progress-block">
+              <div class="progress-track">
+                <div id="progress-bar" class="progress-bar"></div>
+              </div>
+              <p id="progress-text" class="progress-text"></p>
+            </div>
+
+            <p id="action-status" class="status-text" aria-live="polite"></p>
+          </div>
+
+          <div class="panel">
+            <p class="panel-title">Notes</p>
+            <ul class="note-list">
+              <li>Set a password for any network you do not fully trust.</li>
+              <li>Use HTTPS if you want traffic encrypted between devices.</li>
+              <li>Files stay in the shared folder until you remove them from the host.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>WebDrive &mdash; ad-hoc file sharing on your LAN</p>
+      </footer>
+    </div>
+
+    <script id="app-config" type="application/json">{{ app_config|tojson }}</script>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
