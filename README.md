@@ -134,7 +134,7 @@ The current version includes several additions suggested or partially developed 
 
 Some of the newer networking and security-related code extends beyond what I can independently reviewed as I lack a thorough understanding of networking.
 
-**AI assistance is disclosed here** because contributions that simplify the implementation, remove unnecessary features, identify security problems, or replace questionable additions with more technically correct approaches are not just welcome, but appreciated for my ongoing learning.
+**AI assistance disclosed* contributions that simplify the implementation, remove unnecessary features, identify security problems, or replace questionable additions with more technically correct approaches are not just welcome, but appreciated for my ongoing learning.
 
 This remains primarily a *convenience* project.
 
