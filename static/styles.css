@@ -1,0 +1,441 @@
+/* -------------------------------------------------------------------------
+   SECTION: theme tokens, css variables, light and dark
+
+   Values come from theme.json and are applied to :root by app.js at startup.
+   The fallbacks inside var() are what gets used if that fetch fails, so the
+   page still renders as readable HTML instead of losing all colour.
+   ------------------------------------------------------------------------- */
+
+:root {
+  --font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --radius: 4px;
+
+  --bg: var(--light-bg, #f8fafc);
+  --panel: var(--light-panel, #ffffff);
+  --panel-alt: var(--light-panel-alt, #f1f5f9);
+  --text: var(--light-text, #0f172a);
+  --muted: var(--light-muted, #475569);
+  --faint: var(--light-faint, #64748b);
+  --line: var(--light-line, #e2e8f0);
+  --link: var(--light-link, #2563eb);
+  --link-hover: var(--light-link-hover, #1d4ed8);
+  --button: var(--light-button, #e2e8f0);
+  --button-hover: var(--light-button-hover, #cbd5e1);
+  --accent: var(--light-accent, #2563eb);
+  --accent-hover: var(--light-accent-hover, #1d4ed8);
+  --accent-text: var(--light-accent-text, #ffffff);
+  --row-hover: var(--light-row-hover, #f8fafc);
+  --danger: var(--light-danger, #b91c1c);
+  --warning: var(--light-warning, #a16207);
+  --success: var(--light-success, #15803d);
+}
+
+:root[data-theme="dark"] {
+  --bg: var(--dark-bg, #0f172a);
+  --panel: var(--dark-panel, #1e293b);
+  --panel-alt: var(--dark-panel-alt, #334155);
+  --text: var(--dark-text, #f1f5f9);
+  --muted: var(--dark-muted, #cbd5e1);
+  --faint: var(--dark-faint, #94a3b8);
+  --line: var(--dark-line, #334155);
+  --link: var(--dark-link, #60a5fa);
+  --link-hover: var(--dark-link-hover, #93c5fd);
+  --button: var(--dark-button, #334155);
+  --button-hover: var(--dark-button-hover, #475569);
+  --accent: var(--dark-accent, #2563eb);
+  --accent-hover: var(--dark-accent-hover, #1d4ed8);
+  --accent-text: var(--dark-accent-text, #ffffff);
+  --row-hover: var(--dark-row-hover, #243449);
+  --danger: var(--dark-danger, #fca5a5);
+  --warning: var(--dark-warning, #fcd34d);
+  --success: var(--dark-success, #86efac);
+}
+
+/* -------------------------------------------------------------------------
+   SECTION: base elements, body, links, headings
+   ------------------------------------------------------------------------- */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px 16px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-family);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* -------------------------------------------------------------------------
+   SECTION: layout, page width, columns
+
+   Two columns on wide screens, one on narrow, using the same 3:2 split as the
+   original. Plain CSS grid, no framework.
+   ------------------------------------------------------------------------- */
+
+.page {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.tip {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--faint);
+}
+
+.columns {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 3fr 2fr;
+  align-items: start;
+}
+
+/* On a phone the upload panel goes above the listing. Sending a file is
+   usually why the page is open on that device. */
+@media (max-width: 800px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+
+  .col-files {
+    order: 2;
+  }
+
+  .col-upload {
+    order: 1;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   SECTION: toolbar, breadcrumbs
+   ------------------------------------------------------------------------- */
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.breadcrumbs {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.crumb-sep {
+  margin: 0 4px;
+  color: var(--faint);
+}
+
+.crumb-current {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.toolbar-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* -------------------------------------------------------------------------
+   SECTION: file table, listing rows
+   ------------------------------------------------------------------------- */
+
+.table-wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  overflow-x: auto;
+}
+
+.file-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.file-table th,
+.file-table td {
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.file-table thead th {
+  background: var(--panel-alt);
+  color: var(--muted);
+  font-weight: 500;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Fixed widths on the two narrow columns so the name column absorbs the slack
+   and the layout does not shift on every 3 second refresh. */
+.col-size {
+  width: 96px;
+}
+
+.col-modified {
+  width: 160px;
+}
+
+.file-table tbody td {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.file-table tbody tr:first-child td {
+  border-top: none;
+}
+
+.file-table tbody tr:hover {
+  background: var(--row-hover);
+}
+
+.file-table td.cell-name {
+  color: var(--text);
+}
+
+.empty-row td {
+  color: var(--faint);
+  font-style: italic;
+}
+
+/* -------------------------------------------------------------------------
+   SECTION: panels, upload, dropzone, file picker
+   ------------------------------------------------------------------------- */
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 16px;
+}
+
+.panel + .panel {
+  margin-top: 16px;
+}
+
+.panel-title {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.panel-copy {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.dropzone {
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+/* Visual feedback only. The drop handler works whether or not this applies. */
+.dropzone-active {
+  border-color: var(--accent);
+  background: var(--panel-alt);
+}
+
+/* Left as the browser's native file input. It already handles multi-select and
+   shows the chosen count, and a custom one would only be styling. */
+input[type="file"] {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* -------------------------------------------------------------------------
+   SECTION: progress bar
+   ------------------------------------------------------------------------- */
+
+.progress-block {
+  margin-top: 16px;
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--panel-alt);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  background: var(--accent);
+  transition: width 120ms linear;
+}
+
+.progress-text {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* -------------------------------------------------------------------------
+   SECTION: buttons
+   ------------------------------------------------------------------------- */
+
+.button {
+  font: inherit;
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--button);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--button-hover);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-primary {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.button-primary:hover {
+  background: var(--accent-hover);
+}
+
+/* -------------------------------------------------------------------------
+   SECTION: status text, notes
+   ------------------------------------------------------------------------- */
+
+/* min-height reserves the line so the panel does not resize when a message
+   appears and disappears. */
+.status-text {
+  margin: 12px 0 0;
+  font-size: 13px;
+  min-height: 1em;
+}
+
+.status-success {
+  color: var(--success);
+}
+
+.status-error {
+  color: var(--danger);
+}
+
+.status-warn {
+  color: var(--warning);
+}
+
+.note-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.note-list li {
+  margin-bottom: 4px;
+}
+
+/* -------------------------------------------------------------------------
+   SECTION: footer
+   ------------------------------------------------------------------------- */
+
+.footer {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--faint);
+}
+
+/* -------------------------------------------------------------------------
+   SECTION: login page
+   ------------------------------------------------------------------------- */
+
+.login-page {
+  max-width: 360px;
+  margin: 64px auto 0;
+}
+
+.login-form {
+  margin-top: 16px;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.text-input {
+  width: 100%;
+  padding: 6px 8px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.text-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.login-button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px 12px;
+}
